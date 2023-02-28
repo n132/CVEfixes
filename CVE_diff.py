@@ -32,7 +32,11 @@ def grab_vul_code(meta):
     print(code_dir)
     if not code_dir.exists():
         print(f"[+] Clone the repot {repo} (it may take a while)")
-        Repo.clone_from(repo, code_dir)
+        try:
+            Repo.clone_from(repo, code_dir)
+        except:
+            print(f"[!] Fail to clone the repo: {repo}")
+            return 
     else:
         print(f"[+] There is a copy of the repo at {code_dir}. Skip `git clong`")
     diff = subprocess.run(f"git diff {commit}^ {commit}".split(),cwd=code_dir,capture_output=True).stdout
